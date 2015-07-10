@@ -43,8 +43,8 @@ def parse(infile,outfile):
         outfile.write("=================================\n")
         outfile.write("Sheet: " + index + "[ " + str(sheet.get_highest_row()) + " , " + str(sheet.get_highest_column()) + " ]\n")
         outfile.write("=================================\n")
-        for row in range(1,sheet.get_highest_row()):
-            for col in range(1,sheet.get_highest_column()):
+        for row in range(1,sheet.get_highest_row()+1):
+            for col in range(1,sheet.get_highest_column()+1):
                 content = sheet.cell(column=col, row=row).value
                 if content <> "":
                     outfile.write("    " + xl.utils.get_column_letter(col) + str(row) + ": " + unicode(content) + "\n")
