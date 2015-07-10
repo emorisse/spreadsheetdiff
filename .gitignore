@@ -1,4 +1,6 @@
 
 delme/
-~$.*
+# swap/temp files
+~.*
 .*.swp
+.~.*
