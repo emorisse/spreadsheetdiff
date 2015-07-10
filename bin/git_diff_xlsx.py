@@ -16,8 +16,8 @@
 # Contact: w.usher@ucl.ac.uk
 #
 
-import xlrd as xl
 import sys
+import xlrd as xl
 
 def parse(infile,outfile):
     """
