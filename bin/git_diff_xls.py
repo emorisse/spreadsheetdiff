@@ -17,7 +17,7 @@
 #
 
 import sys
-import openpyxl as xl
+import xlrd as xl
 
 def parse(infile,outfile):
     """
@@ -47,11 +47,9 @@ def parse(infile,outfile):
         outfile.write("=================================\n")
         for row in range(0,sheet.nrows):
             for col in range(0,sheet.ncols):
-                content = get_cells(sheet, row, col).value
-                content = sheet.cell(column=col, row=row).value
+                content = get_cells(sheet, row, col)
                 if content <> "":
                     outfile.write("    " + unicode(xl.cellname(row,col)) + ": " + unicode(content) + "\n")
-                    outfile.write(" what's up?")
         print "\n"
 
 # output cell address and contents of cell
