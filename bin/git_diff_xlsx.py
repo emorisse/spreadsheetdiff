@@ -18,6 +18,7 @@
 
 import sys
 import openpyxl as xl
+from openpyxl import load_workbook
 
 def parse(infile,outfile):
     """
@@ -25,33 +26,29 @@ def parse(infile,outfile):
     Returns a formatted text file for comparison using git diff.
     """
 
-    book = xl.open_workbook(infile)
+    book = xl.load_workbook(infile)
 
-    num_sheets = book.nsheets
+    num_sheets = book.get_sheet_names()
 
-    print book.sheet_names()
+    print num_sheets
 
 #   print "File last edited by " + book.user_name + "\n"
-    outfile.write("File last edited by " + book.user_name + "\n")
-
-    def get_cells(sheet, rowx, colx):
-        return sheet.cell_value(rowx, colx)
+    outfile.write("File last edited by " + book.properties.lastModifiedBy + "\n")
 
     # loop over worksheets
 
-    for index in range(0,num_sheets):
+    for index in book.get_sheet_names():
         # find non empty cells
-        sheet = book.sheet_by_index(index)
+        sheet = book.get_sheet_by_name(index)
         outfile.write("=================================\n")
-        outfile.write("Sheet: " + sheet.name + "[ " + str(sheet.nrows) + " , " + str(sheet.ncols) + " ]\n")
+        outfile.write("Sheet: " + index + "[ " + str(sheet.get_highest_row()) + " , " + str(sheet.get_highest_column()) + " ]\n")
         outfile.write("=================================\n")
-        for row in range(0,sheet.nrows):
-            for col in range(0,sheet.ncols):
-                content = get_cells(sheet, row, col).value
+        for row in range(1,sheet.get_highest_row()):
+            for col in range(1,sheet.get_highest_column()):
                 content = sheet.cell(column=col, row=row).value
                 if content <> "":
-                    outfile.write("    " + unicode(xl.cellname(row,col)) + ": " + unicode(content) + "\n")
-                    outfile.write(" what's up?")
+                    outfile.write("    " + xl.utils.get_column_letter(col) + str(row) + ": " + unicode(content) + "\n")
+                    #outfile.write("    " + unicode(xl.utils.get_column_letter(col)) + row + ": " + unicode(content) + "\n")
         print "\n"
 
 # output cell address and contents of cell
