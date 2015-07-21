@@ -33,7 +33,8 @@ def parse(infile,outfile):
     print num_sheets
 
 #   print "File last edited by " + book.user_name + "\n"
-    outfile.write("File last edited by " + book.properties.lastModifiedBy + "\n")
+    if ( book.properties.lastModifiedBy ):
+        outfile.write("File last edited by " + book.properties.lastModifiedBy + "\n")
 
     # loop over worksheets
 
